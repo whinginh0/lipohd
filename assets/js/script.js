@@ -27,20 +27,23 @@
 
   /* ---------- Marquee direction controls ---------- */
   document.querySelectorAll('[data-marquee-control]').forEach(function (group) {
-    var carousel = group.previousElementSibling;
-    var track = carousel && carousel.querySelector('.marquee-track');
-    if (!track) return;
+    var sec = group.closest('.sec') || group.parentElement;
+    var tracks = sec ? sec.querySelectorAll('.marquee-track') : [];
+    if (!tracks.length) return;
     var timer;
-    function move(reverse) {
-      track.classList.toggle('is-reverse', reverse);
-      track.classList.add('is-fast');
+    function move(isNext) {
+      tracks.forEach(function (track) {
+        track.classList.add('is-fast');
+      });
       clearTimeout(timer);
-      timer = setTimeout(function () { track.classList.remove('is-fast'); }, 1800);
+      timer = setTimeout(function () {
+        tracks.forEach(function (track) { track.classList.remove('is-fast'); });
+      }, 1800);
     }
     var prev = group.querySelector('[data-marquee-prev]');
     var next = group.querySelector('[data-marquee-next]');
-    if (prev) prev.addEventListener('click', function () { move(true); });
-    if (next) next.addEventListener('click', function () { move(false); });
+    if (prev) prev.addEventListener('click', function () { move(false); });
+    if (next) next.addEventListener('click', function () { move(true); });
   });
 
   /* ---------- Activity gallery carousel (mobile) ---------- */

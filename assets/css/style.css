@@ -465,6 +465,10 @@ section {
   mask-image: linear-gradient(90deg, transparent, #000 6%, #000 94%, transparent);
 }
 
+.marquee--mt {
+  margin-top: 24px;
+}
+
 .marquee-track {
   display: flex;
   gap: 30px;
@@ -2011,17 +2015,16 @@ section {
 
   .gal-card,
   .photo-card {
-    width: 94vw;
-    max-width: 560px;
-    border-radius: 16px;
+    width: clamp(360px, 97vw, 660px);
+    border-radius: 18px;
   }
 
   .photo-card {
-    border-width: 3px;
+    border-width: 3.5px;
   }
 
   .marquee-track {
-    gap: 14px;
+    gap: 16px;
   }
 
   .offerbar {
@@ -2080,12 +2083,18 @@ section {
     max-width: 100%;
   }
 
+  .marquee--mt {
+    margin-top: 14px;
+  }
+
   .hero-art {
-    max-width: 340px;
+    max-width: min(480px, 96vw);
+    margin: 0 auto 28px;
   }
 
   .hero-art img {
     width: 100%;
+    max-width: 100%;
   }
 }
 
@@ -2098,6 +2107,9 @@ section {
   .hero h1 {
     font-size: 20px;
     line-height: 1.32;
+  }
+  .hero-art {
+    max-width: 100%;
   }
   .badge-pill {
     font-size: 11px;

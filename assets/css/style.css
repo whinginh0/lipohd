@@ -1984,6 +1984,12 @@ section {
   .guarantee .stack {
     justify-content: center;
   }
+
+  .gal-card,
+  .photo-card {
+    width: clamp(520px, 68vw, 760px);
+    min-width: 480px;
+  }
 }
 
 @media (max-width: 620px) {
@@ -2015,7 +2021,8 @@ section {
 
   .gal-card,
   .photo-card {
-    width: clamp(360px, 97vw, 660px);
+    width: clamp(460px, 120vw, 720px) !important;
+    min-width: 440px !important;
     border-radius: 18px;
   }
 
@@ -2024,7 +2031,7 @@ section {
   }
 
   .marquee-track {
-    gap: 16px;
+    gap: 18px;
   }
 
   .offerbar {
@@ -2099,6 +2106,11 @@ section {
 }
 
 @media (max-width: 380px) {
+  .gal-card,
+  .photo-card {
+    width: clamp(420px, 125vw, 680px) !important;
+    min-width: 400px !important;
+  }
   .offerbar {
     font-size: 14px;
     padding: 14px 12px;

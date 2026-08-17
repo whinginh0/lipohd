@@ -1987,8 +1987,8 @@ section {
 
   .gal-card,
   .photo-card {
-    width: clamp(520px, 68vw, 760px);
-    min-width: 480px;
+    width: clamp(620px, 80vw, 840px);
+    min-width: 580px;
   }
 }
 
@@ -2021,17 +2021,17 @@ section {
 
   .gal-card,
   .photo-card {
-    width: clamp(460px, 120vw, 720px) !important;
-    min-width: 440px !important;
-    border-radius: 18px;
+    width: clamp(680px, 175vw, 980px) !important;
+    min-width: 650px !important;
+    border-radius: 22px;
   }
 
   .photo-card {
-    border-width: 3.5px;
+    border-width: 4px;
   }
 
   .marquee-track {
-    gap: 18px;
+    gap: 22px;
   }
 
   .offerbar {
@@ -2108,8 +2108,9 @@ section {
 @media (max-width: 380px) {
   .gal-card,
   .photo-card {
-    width: clamp(420px, 125vw, 680px) !important;
-    min-width: 400px !important;
+    width: clamp(620px, 170vw, 900px) !important;
+    min-width: 600px !important;
+    border-radius: 20px;
   }
   .offerbar {
     font-size: 14px;

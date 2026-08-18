@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Emissão de Certificado Oficial — +100 Mapas Mentais Ilustrados para Lipo HD</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
+  <link href="https://fonts.googleapis.com/css2?family=Alex+Brush&family=Dancing+Script:wght@600;700&family=Playfair+Display:ital,wght@0,600;0,700;1,600;1,700&family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+  <!-- Top announcement -->
+  <div class="topbar">
+    🎓 Portal do Aluno — +100 Mapas Mentais Ilustrados para Lipo HD <a href="../">← Voltar à página principal</a>
+  </div>
+
+  <main class="cert-page">
+    <div class="cert-box">
+      <!-- Header info -->
+      <div class="cert-header">
+        <div class="cert-badge">
+          <span>✨</span> Certificado de Conclusão Oficial
+        </div>
+        <h1>Gerar Certificado de Conclusão</h1>
+        <p>Preencha com o seu nome completo exatamente como deseja que apareça no seu certificado oficial dos +100 Mapas Mentais Ilustrados para Lipo HD.</p>
+      </div>
+
+      <!-- Main Card -->
+      <div class="cert-card">
+        <!-- Loading spinner -->
+        <div class="cert-loading" id="certLoading" style="display:none;">
+          <div class="spinner"></div>
+          <strong style="color:var(--navy);font-size:17px;">Processando e gerando seu certificado em alta resolução...</strong>
+        </div>
+
+        <!-- 1. Initial State: Form -->
+        <div class="form-box" id="formBox">
+          <form id="certForm" autocomplete="on">
+            <div class="form-group">
+              <label for="nameInput">Seu Nome Completo:</label>
+              <div class="input-wrapper">
+                <svg class="input-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+                  <circle cx="12" cy="7" r="4"></circle>
+                </svg>
+                <input 
+                  type="text" 
+                  id="nameInput" 
+                  class="cert-input" 
+                  placeholder="Ex: Dr. Lucas Silveira Mendes" 
+                  required 
+                  minlength="3" 
+                  maxlength="60"
+                  autocomplete="name"
+                  autofocus
+                >
+              </div>
+            </div>
+
+            <div class="security-notice">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path>
+              </svg>
+              <div>
+                <strong>Atenção:</strong> O certificado é gerado de forma definitiva e vinculado aos seus dados. Após a emissão, ele ficará salvo com o nome informado.
+              </div>
+            </div>
+
+            <button type="submit" id="submitBtn" class="btn btn--green btn--block btn-pulse">
+              GERAR MEU CERTIFICADO <span style="font-size:1.2em;">→</span>
+            </button>
+          </form>
+        </div>
+
+        <!-- 2. Already Generated State -->
+        <div class="already-box" id="alreadyBox">
+          <div class="success-badge">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+              <polyline points="20 6 9 17 4 12"></polyline>
+            </svg>
+            Certificado Emitido com Sucesso!
+          </div>
+
+          <h2 style="color:var(--navy);margin:0 0 10px;font-size:24px;">Seu certificado está pronto para download</h2>
+          <p style="color:var(--muted);margin:0 auto;max-width:580px;">Este certificado oficial de Lipo HD já foi gerado e salvo permanentemente em seu navegador.</p>
+
+          <div class="cert-meta">
+            <div class="cert-meta-item">
+              <div class="cert-meta-label">Emitido para</div>
+              <div class="cert-meta-val" id="savedName">-</div>
+            </div>
+            <div class="cert-meta-item">
+              <div class="cert-meta-label">Data de Conclusão</div>
+              <div class="cert-meta-val" id="savedDate">-</div>
+            </div>
+            <div class="cert-meta-item">
+              <div class="cert-meta-label">Código de Autenticidade</div>
+              <div class="cert-meta-val" id="savedCode">-</div>
+            </div>
+          </div>
+
+          <div class="btn-row">
+            <button type="button" class="btn btn--green js-download-btn">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                <polyline points="7 10 12 15 17 10"></polyline>
+                <line x1="12" y1="15" x2="12" y2="3"></line>
+              </svg>
+              Baixar Imagem (.PNG)
+            </button>
+
+            <button type="button" class="btn btn--gold js-print-btn">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                <polyline points="6 9 6 2 18 2 18 9"></polyline>
+                <path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"></path>
+                <rect x="6" y="14" width="12" height="8"></rect>
+              </svg>
+              Imprimir Certificado
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <!-- Modal with Certificate Result -->
+  <div class="cert-modal" id="certModal" role="dialog" aria-modal="true">
+    <div class="cert-modal-content">
+      <button class="modal-close-btn" id="closeModalBtn" aria-label="Fechar modal">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+          <line x1="18" y1="6" x2="6" y2="18"></line>
+          <line x1="6" y1="6" x2="18" y2="18"></line>
+        </svg>
+      </button>
+
+      <div class="modal-head">
+        <h2>Seu Certificado Oficial</h2>
+        <p>Você pode baixar o arquivo em alta definição ou imprimir diretamente.</p>
+      </div>
+
+      <div class="cert-preview-frame">
+        <img id="certPreviewImg" class="cert-preview-img" src="img/certificado.webp" alt="Certificado de Conclusão Personalizado">
+      </div>
+
+      <div class="btn-row">
+        <button type="button" class="btn btn--green js-download-btn">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+            <polyline points="7 10 12 15 17 10"></polyline>
+            <line x1="12" y1="15" x2="12" y2="3"></line>
+          </svg>
+          Baixar Certificado (.PNG)
+        </button>
+
+        <button type="button" class="btn btn--gold js-print-btn">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+            <polyline points="6 9 6 2 18 2 18 9"></polyline>
+            <path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"></path>
+            <rect x="6" y="14" width="12" height="8"></rect>
+          </svg>
+          Imprimir Certificado
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Hidden Canvas for high-resolution 1491x1055 rendering -->
+  <canvas id="certCanvas" width="1491" height="1055"></canvas>
+
+  <!-- Print wrapper for clean A4 printing -->
+  <div id="printWrapper" style="display:none;">
+    <img id="printImg" src="" alt="Certificado para Impressão">
+  </div>
+
+  <script src="script.js"></script>
+</body>
+
+</html>

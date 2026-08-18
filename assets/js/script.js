@@ -141,6 +141,8 @@
   function isCheckoutUrl(url) {
     if (!url) return false;
     var platforms = [
+      'ggcheckout.com',
+      'ggcheckout.com.br',
       'kiwify.com.br',
       'pay.kiwify.com.br',
       'greenn.com.br',

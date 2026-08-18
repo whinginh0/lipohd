@@ -137,29 +137,37 @@
     return null;
   }
 
-  // Verifica se a URL pertence a uma plataforma de checkout ou tem marcação de checkout
-  function isCheckoutUrl(url) {
+  // Verifica se o link é de compra/checkout (qualquer plataforma externa, GGCheckout, Kiwify, Greenn, Hotmart, etc.)
+  function isCheckoutUrl(url, el) {
     if (!url) return false;
-    var platforms = [
-      'ggcheckout.com',
-      'ggcheckout.com.br',
-      'kiwify.com.br',
-      'pay.kiwify.com.br',
-      'greenn.com.br',
-      'payfast.greenn.com.br',
-      'hotmart.com',
-      'pay.hotmart.com',
-      'eduzz.com',
-      'sun.eduzz.com',
-      'monetizze.com.br',
-      'perfectpay.com.br',
-      'kirvano.com',
-      'pay.kirvano.com',
-      'hubla.app'
-    ];
-    return platforms.some(function (domain) {
-      return url.indexOf(domain) !== -1;
-    });
+    var trimmed = url.trim();
+
+    // Ignora âncoras internas (#oferta), javascript, mailto ou tel
+    if (trimmed.startsWith('#') || trimmed.startsWith('javascript:') || trimmed.startsWith('mailto:') || trimmed.startsWith('tel:')) {
+      return false;
+    }
+
+    // Se o elemento tiver atributo data-checkout ou estiver dentro da seção de planos/oferta
+    if (el) {
+      if (el.hasAttribute('data-checkout')) return true;
+      if (el.closest('.plans') || el.closest('.plan') || el.closest('#oferta')) {
+        if (trimmed.startsWith('http://') || trimmed.startsWith('https://')) return true;
+      }
+    }
+
+    // Qualquer link HTTP/HTTPS externo é tratado como checkout/destino de compra
+    if (trimmed.startsWith('http://') || trimmed.startsWith('https://')) {
+      try {
+        var parsed = new URL(trimmed, window.location.origin);
+        if (parsed.origin !== window.location.origin) {
+          return true; // Link externo de pagamento
+        }
+      } catch (e) {
+        return true;
+      }
+    }
+
+    return false;
   }
 
   // Constrói a URL final de checkout mesclando os parâmetros sem duplicar
@@ -181,7 +189,7 @@
         }
       });
 
-      // Mapeamento extra de segurança para Kiwify / Greenn / Hotmart
+      // Mapeamento universal para GGCheckout, Kiwify, Greenn, Hotmart, etc.
       if (targetParams.has('utm_source') && !targetParams.has('src')) {
         targetParams.set('src', targetParams.get('utm_source'));
       }
@@ -204,7 +212,7 @@
     var links = document.querySelectorAll('a[href]');
     links.forEach(function (link) {
       var href = link.getAttribute('href');
-      if (href && (isCheckoutUrl(href) || link.hasAttribute('data-checkout'))) {
+      if (href && isCheckoutUrl(href, link)) {
         var newHref = buildTrackingUrl(href, params);
         if (newHref !== href) {
           link.setAttribute('href', newHref);
@@ -218,7 +226,7 @@
     var link = e.target.closest('a[href]');
     if (!link) return;
     var href = link.getAttribute('href');
-    if (href && (isCheckoutUrl(href) || link.hasAttribute('data-checkout'))) {
+    if (href && isCheckoutUrl(href, link)) {
       var params = getUtmParams();
       if (params) {
         var finalHref = buildTrackingUrl(href, params);

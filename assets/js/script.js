@@ -115,3 +115,120 @@
   }
 })();
 
+// 3. Rastreamento e Injeção de Parâmetros UTM nos Botões de Checkout (Kiwify, Greenn, Hotmart, etc.)
+(function () {
+  'use strict';
+
+  var UTM_STORAGE_KEY = '__utm_tracking_params__';
+
+  // Obtém os parâmetros da URL atual ou recupera do sessionStorage
+  function getUtmParams() {
+    var search = window.location.search;
+    if (search && search.length > 1) {
+      try {
+        sessionStorage.setItem(UTM_STORAGE_KEY, search);
+      } catch (e) {}
+      return new URLSearchParams(search);
+    }
+    try {
+      var stored = sessionStorage.getItem(UTM_STORAGE_KEY);
+      if (stored) return new URLSearchParams(stored);
+    } catch (e) {}
+    return null;
+  }
+
+  // Verifica se a URL pertence a uma plataforma de checkout ou tem marcação de checkout
+  function isCheckoutUrl(url) {
+    if (!url) return false;
+    var platforms = [
+      'kiwify.com.br',
+      'pay.kiwify.com.br',
+      'greenn.com.br',
+      'payfast.greenn.com.br',
+      'hotmart.com',
+      'pay.hotmart.com',
+      'eduzz.com',
+      'sun.eduzz.com',
+      'monetizze.com.br',
+      'perfectpay.com.br',
+      'kirvano.com',
+      'pay.kirvano.com',
+      'hubla.app'
+    ];
+    return platforms.some(function (domain) {
+      return url.indexOf(domain) !== -1;
+    });
+  }
+
+  // Constrói a URL final de checkout mesclando os parâmetros sem duplicar
+  function buildTrackingUrl(originalHref, params) {
+    if (!originalHref || !params) return originalHref;
+    try {
+      var base = originalHref.split('#')[0];
+      var hash = originalHref.indexOf('#') !== -1 ? '#' + originalHref.split('#')[1] : '';
+      var urlParts = base.split('?');
+      var baseUrl = urlParts[0];
+      var existingQuery = urlParts[1] ? urlParts[1] : '';
+      
+      var targetParams = new URLSearchParams(existingQuery);
+
+      // Injeta todos os parâmetros UTM da página
+      params.forEach(function (val, key) {
+        if (!targetParams.has(key)) {
+          targetParams.set(key, val);
+        }
+      });
+
+      // Mapeamento extra de segurança para Kiwify / Greenn / Hotmart
+      if (targetParams.has('utm_source') && !targetParams.has('src')) {
+        targetParams.set('src', targetParams.get('utm_source'));
+      }
+      if (targetParams.has('utm_campaign') && !targetParams.has('sck')) {
+        targetParams.set('sck', targetParams.get('utm_campaign'));
+      }
+
+      var queryString = targetParams.toString();
+      return baseUrl + (queryString ? '?' + queryString : '') + hash;
+    } catch (err) {
+      return originalHref;
+    }
+  }
+
+  // Atualiza todos os links de checkout na página
+  function injectUtmsToCheckoutButtons() {
+    var params = getUtmParams();
+    if (!params) return;
+
+    var links = document.querySelectorAll('a[href]');
+    links.forEach(function (link) {
+      var href = link.getAttribute('href');
+      if (href && (isCheckoutUrl(href) || link.hasAttribute('data-checkout'))) {
+        var newHref = buildTrackingUrl(href, params);
+        if (newHref !== href) {
+          link.setAttribute('href', newHref);
+        }
+      }
+    });
+  }
+
+  // Intercepta o clique para garantir a injeção em tempo real antes do redirecionamento
+  document.addEventListener('click', function (e) {
+    var link = e.target.closest('a[href]');
+    if (!link) return;
+    var href = link.getAttribute('href');
+    if (href && (isCheckoutUrl(href) || link.hasAttribute('data-checkout'))) {
+      var params = getUtmParams();
+      if (params) {
+        var finalHref = buildTrackingUrl(href, params);
+        link.setAttribute('href', finalHref);
+      }
+    }
+  }, true);
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', injectUtmsToCheckoutButtons);
+  } else {
+    injectUtmsToCheckoutButtons();
+  }
+})();
+
